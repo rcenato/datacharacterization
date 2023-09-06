@@ -23,18 +23,6 @@ else:
             print("Access denied; Do I have root rights or the needed capabilities?")
             sys.exit(-1)
 
-#Para cada pacote:
-#Extrair 4-tupla e usar como chave para MAP
-# 5-tupla: protocol, client IP address, client port number, server IP address, server port number
-#Packet_counter++  // Contador de pacotes
-#Extrair estatística de:
-#Tamanho em byte do payload: max, min, médio
-#Curr_timestamp ← timestamp
-#Se for o primeiro pacote:
-#Início do fluxo ← curr_timestamp
-#last_timestamp ← curr_timestamp
-#Interarrival_time ← curr_timestamp - last_timestamp
-#Mean_interarrival_time ← (mean_interarrival_time + interarrival_time)/packet_counter
         while True:
             try:
                 for packet in conn:
@@ -56,7 +44,14 @@ else:
                     if l4.seq == 1:
                         flow_start = l4.timestamp
 
+                    #Extrair estatística de:
                     #Tamanho em byte do payload: max, min, médio
+                    #Curr_timestamp ← timestamp
+                    #Se for o primeiro pacote:
+                    #Início do fluxo ← curr_timestamp
+                    #last_timestamp ← curr_timestamp
+                    #Interarrival_time ← curr_timestamp - last_timestamp
+                    #Mean_interarrival_time ← (mean_interarrival_time + interarrival_time)/packet_counter
 
             except fnfqueue.BufferOverflowException:
                 print("buffer error")
