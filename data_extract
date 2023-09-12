@@ -13,6 +13,8 @@ else:
         queue = 1
         conn = fnfqueue.Connection()
         pkt_counter = 0
+        mean_interarrival_time
+        interarrival_time
 
         features = ['tcp.protocol', 'tcp.srcport', 'tcp.dstport','ip.src','ip.dst','pkt.len']
 
@@ -32,17 +34,22 @@ else:
                     l4 = TCP(packet.payload)
 
                     pkt.append(l4.proto) #l4_protocol
-                    pkt.append(l4.sport) #tcp_sport
-                    pkt.append(l4.dport) #tcp_dport
+                    pkt.append(l4.sport) #tcp_source port
+                    pkt.append(l4.dport) #tcp_destination port
                     pkt.append(l3.src) #IP Source Address
                     pkt.append(l3.dst) #IP Destination Address
 
                     #Tamanho em byte do payload: max, min, médio
                     pkt.append(len(packet.payload))  #Payload lenght
 
+
+                    last_timestamp = curr_timestamp
                     curr_timestamp = packet.timestamp
                     if l4.seq == 1:
+                        interarrival_time = curr_timestamp - last_timestamp
                         flow_start = l4.timestamp
+
+                    print("packet:", pkt_counter)
 
                     #Extrair estatística de:
                     #Tamanho em byte do payload: max, min, médio
